@@ -22,14 +22,14 @@ function handleHome(req, res) {
 async function handleSearch(req, res) {
     const lat=req.query.lat;
     const lon=req.query.lon;  
-    const url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=27aa3dffd38045678781cc0579df2711&include=minutely`;
+    const url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=d4b28539a2b24563a94b4a3d14d3d37f&include=minutely`;
 
     const photoRes = await axios.get(url);
-    console.log(photoRes.data);
-
-    
-
-    res.send(photoRes.data);
+    let arrayWeather=[];
+    arrayWeather[0]=photoRes.data.data[0].datetime;
+    arrayWeather[1]=photoRes.data.data[0].weather.description;
+    let classWeather=new weather(arrayWeather[0] ,arrayWeather[1]);
+    res.send(classWeather);
 
 }
 
@@ -37,7 +37,14 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 })
 
-
-
+class weather{
+    constructor(datetime, description){
+        this.description=description;
+        this.date=datetime;
+       
+        
+    }
+    
+}
 
 
